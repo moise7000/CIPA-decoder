@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C'est quoi les points CIPA ?</title>
+    <style>
+        body {
+            font-family: Helevetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #reponses {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .reponse {
+            position: absolute;
+            color: #333;
+            font-size: 1.2em;
+            white-space: nowrap;
+            animation: explosion 3s ease-out forwards;
+        }
+        @keyframes explosion {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(
+                    calc(-50% + var(--x-offset)),
+                    calc(-50% + var(--y-offset))
+                ) scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>C'est quoi les points CIPA ?</h1>
+    <button id="disMoi">Dis-moi</button>
+    <div id="reponses"></div>
+
+    <script>
+        document.getElementById('disMoi').addEventListener('click', function() {
+            const reponsesContainer = document.getElementById('reponses');
+            reponsesContainer.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const reponse = document.createElement('div');
+                    reponse.textContent = 'Je ne sais pas';
+                    reponse.className = 'reponse';
+                    
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    const xOffset = (Math.random() - 0.5) * 200;
+                    const yOffset = (Math.random() - 0.5) * 200;
+                    
+                    reponse.style.left = `${x}px`;
+                    reponse.style.top = `${y}px`;
+                    reponse.style.setProperty('--x-offset', `${xOffset}px`);
+                    reponse.style.setProperty('--y-offset', `${yOffset}px`);
+                    
+                    reponsesContainer.appendChild(reponse);
+                    
+                    setTimeout(() => {
+                        reponse.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        });
+    </script>
+</body>
+</html>
